@@ -45,26 +45,11 @@ export default {
       this.$refs.form.validate(isValid => {
         // console.log(isValid)
         if (!isValid) return
-        // console.log('发送ajax请求')
-        // axios({
-        //   method: 'post',
-        //   url: 'http://localhost:8888/api/private/v1/login',
-        //   data: this.form
-        // }).then(res => {
-        //   // console.log(res.data)
-        //   const { meta } = res.data
-        //   if (meta.status === 200) {
-        //     console.log(meta.msg)
-        //   } else {
-        //     // 失败了
-        //     console.log(meta.msg)
-        //   }
-        // })
-        // })
         axios.post('http://localhost:8888/api/private/v1/login', this.form).then(res => {
-          const { meta } = res.data
+          const { meta, data } = res.data
           if (meta.status === 200) {
             // console.log(meta.msg)
+            localStorage.setItem('token', data.token)
             this.$message({
               type: 'success',
               message: meta.msg,
