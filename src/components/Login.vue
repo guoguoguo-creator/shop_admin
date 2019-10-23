@@ -3,16 +3,17 @@
     <el-form ref="form" status-icon :model="form" :rules="rules" label-width="80px">
       <img class="logo" src="../assets/avatar.jpg" alt="">
       <el-form-item label="用户名" prop="username">
-        <el-input placeholder="请输入用户名" v-model="form.username"></el-input>
+        <el-input @keyup.enter.native="login" placeholder="请输入用户名" v-model="form.username"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input placeholder="请输入密码" type="password" v-model="form.password"></el-input>
+        <el-input @keyup.enter.native="login" placeholder="请输入密码" type="password" v-model="form.password"></el-input>
       </el-form-item>
       <el-form-item>
       <el-button @click="login" class="loginBtn" type="primary">登陆</el-button>
       <el-button @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
+
   </div>
 </template>
 
@@ -42,7 +43,7 @@ export default {
     },
     async login () {
       try {
-        await this.$refs.form.validate
+        await this.$refs.form.validate()
         const { meta, data } = await this.$axios.post('login', this.form)
         if (meta.status === 200) {
           localStorage.setItem('token', data.token)
@@ -63,14 +64,14 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .login {
   width: 100%;
   height: 100%;
   background-color: #2d434c;
   overflow: hidden;
-}
-.el-form {
+
+  .el-form {
   width: 400px;
   background-color: #fff;
   border-radius: 20px;
@@ -80,17 +81,19 @@ export default {
   margin-top: 200px;
   position: relative;
 
-  .logo {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: -75px;
-  border-radius: 50%;
-  border: 5px solid #fff;
-}
-.loginBtn {
-  margin-right: 70px;
-}
+    .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -75px;
+    border-radius: 50%;
+    border: 5px solid #fff;
+    }
+
+    .loginBtn {
+    margin-right: 70px;
+    }
+  }
 }
 
 </style>
